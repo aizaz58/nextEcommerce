@@ -11,7 +11,7 @@ const fetchCheckout = async (checkoutId) => {
   if (list.docs.length === 0) {
     throw new Error("Invalid Checkout ID");
   }
-  return list.docs[0].data();
+  return list?.docs[0]?.data();
 };
 
 const processOrder = async ({ checkout }) => {
