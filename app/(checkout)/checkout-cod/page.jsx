@@ -1,6 +1,6 @@
-import Footer from "@/app/components/Footer";
-import Header from "@/app/components/Header";
-import { admin, adminDB } from "@/lib/firebase_admin";
+import Footer from "@/app/components/Footer"
+import Header from "@/app/components/Header"
+import { admin, adminDB } from "@/lib/firebase_admin"
 import Link from "next/link";
 
 const fetchCheckout = async (checkoutId) => {
@@ -82,7 +82,7 @@ export default async function Page({ searchParams }) {
           <img src="/svgs/Mobile payments-rafiki.svg" className="h-48" alt="" />
         </div>
         <h1 className="text-2xl font-semibold text-green">
-          Your Order Is{" "}
+          Your Order Is {" "}
           <span className="font-bold text-green-600">Successfully</span> Placed
         </h1>
         <div className="flex items-center gap-4 text-sm">
