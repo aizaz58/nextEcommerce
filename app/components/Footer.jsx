@@ -5,7 +5,8 @@ export default function Footer() {
     <footer className="flex flex-col gap-3 w-full bg-blue-100 border-t p-5 md:p-10">
       <div className="border-b w-full flex flex-col md:flex-row md:justify-between gap-3">
         <div className="flex">
-          <img className="h-8" src="/logo.png" alt="Logo" />
+          logo
+          {/* <img className="h-8" src="/logo.png" alt="Logo" /> */}
         </div>
         <div className="flex-1 flex flex-col md:flex-row justify-end gap-4">
           <div className="flex gap-2 items-center">
@@ -24,7 +25,7 @@ export default function Footer() {
       </div>
       <div className="flex justify-center w-full">
         <h3 className="text-xs text-gray-700">
-          © 2024 . All rights reserved by [discount]
+          © 2024 . All rights reserved by [logo]
         </h3>
       </div>
     </footer>

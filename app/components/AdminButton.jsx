@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdmin } from "@/lib/firestore/admins/read";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function AdminButton() {
@@ -11,8 +12,11 @@ export default function AdminButton() {
     return <></>;
   }
   return (
-    <Link href={"/admin"}>
-      <button className="text-xs font-semibold">Admin</button>
-    </Link>
+    
+     
+      <Button asChild className="text-xs font-semibold">
+<Link href={"/admin"}>Admin</Link>
+      </Button>
+   
   );
 }

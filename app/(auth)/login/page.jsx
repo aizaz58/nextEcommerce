@@ -49,10 +49,11 @@ export default function Page() {
     <main className="w-full flex justify-center items-center bg-gray-300 md:p-24 p-10 min-h-screen">
       <section className="flex flex-col gap-3">
         <div className="flex justify-center">
-          <img className="h-12" src="/logo.png" alt="Logo" />
+          logo
+          {/* <img className="h-12" src="/logo.png" alt="Logo" /> */}
         </div>
         <div className="flex flex-col gap-3 bg-white md:p-10 p-5 rounded-xl md:min-w-[440px] w-full">
-          <h1 className="font-bold text-xl">Login With Email</h1>
+          <h1 className=" w-auto font-bold text-xl">Login With Email</h1>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -93,12 +94,12 @@ export default function Page() {
           </form>
           <div className="flex justify-between">
             <Link href={`/sign-up`}>
-              <button className="font-semibold text-sm text-blue-700">
+              <button className="font-semibold text-sm text-primary">
                 New? Create Account
               </button>
             </Link>
             <Link href={`/forget-password`}>
-              <button className="font-semibold text-sm text-blue-700">
+              <button className="font-semibold text-sm text-primary">
                 Forget Password?
               </button>
             </Link>
