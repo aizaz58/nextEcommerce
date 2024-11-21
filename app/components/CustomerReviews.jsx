@@ -34,9 +34,9 @@ export default function CustomerReviews() {
           Our customers love
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {list?.map((item) => {
+          {list?.map((item,i) => {
             return (
-              <div className="flex flex-col gap-2 p-4 rounded-lg justify-center items-center border">
+              <div key={i} className="flex flex-col gap-2 p-4 rounded-lg justify-center items-center border">
                 <img
                   src={item?.imageLink}
                   className="h-32 w-32 rounded-full object-cover"

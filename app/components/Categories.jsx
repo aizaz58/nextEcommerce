@@ -4,12 +4,13 @@ import { Button } from "@nextui-org/react";
 import { collection } from "firebase/firestore";
 import { Heart } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import Slider from "react-slick";
 
 export default function Categories({ categories }) {
   var settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
@@ -55,13 +56,14 @@ export default function Categories({ categories }) {
         {(categories?.length <= 2
           ? [...categories, ...categories, ...categories]
           : categories
-        )?.map((category) => {
+        )?.map((category,i) => {
           return (
-            <Link href={`/categories/${category?.id}`}>
+            <Link key={i} href={`/categories/${category?.id}`}>
               <div className="px-2">
                 <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="md:h-32 md:w-32 h-24 w-24 rounded-full md:p-5 p-2 border overflow-hidden">
-                    <img src={category?.imageURL} alt="" />
+                  <div className="md:h-32 md:w-32 h-24 w-24 rounded-full   border overflow-hidden">
+                    <Image width={70} height={70} src={category?.imageURL} className="w-full rounded-full bg-cover h-full" alt="" />
+                  
                   </div>
                   <h1 className="font-semibold">{category?.name}</h1>
                 </div>
