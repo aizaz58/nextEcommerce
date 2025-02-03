@@ -31,11 +31,10 @@ export default async function Home() {
     <main className="w-screen h-screen overflow-x-hidden overflow-y-auto">
       <Header />
       <FeaturedProductSlider featuredProducts={featuredProducts} />
-      <Collections collections={collections} />
       <Categories categories={categories} />
       <ProductsGridView products={products} />
       <CustomerReviews />
-      <Brands brands={brands} />
+      {/* <Brands brands={brands} /> */}
       <Footer />
     </main>
   );

@@ -3,7 +3,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@/lib/firestore/user/read";
 import { updateCarts } from "@/lib/firestore/user/write";
-import { Button } from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -62,7 +62,7 @@ export default function AddToCartButton({ productId, type }) {
         isDisabled={isLoading}
         onClick={handlClick}
         variant="bordered"
-        className=""
+        className="w-auto border border-input text-primary hover:text-primary/80  hover:border-primary"
         color="primary"
         size="sm"
       >
@@ -79,9 +79,9 @@ export default function AddToCartButton({ productId, type }) {
       isLoading={isLoading}
       isDisabled={isLoading}
       onClick={handlClick}
-      variant="flat"
+      variant="outline"
       isIconOnly
-      size="sm"
+  
     >
       {!isAdded && <AddShoppingCartIcon className="text-xs" />}
       {isAdded && <ShoppingCartIcon className="text-xs" />}

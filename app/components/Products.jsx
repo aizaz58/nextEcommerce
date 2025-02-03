@@ -5,9 +5,10 @@ import AddToCartButton from "./AddToCartButton";
 import { getProductReviewCounts } from "@/lib/firestore/products/count/read";
 import { Suspense } from "react";
 import MyRating from "./MyRating";
+import { Button } from "@/components/ui/button";
 
 export default function ProductsGridView({ products }) {
-  console.log(products)
+
   if(!products || products===undefined){
     return <h4>No products</h4>
   }
@@ -15,7 +16,7 @@ export default function ProductsGridView({ products }) {
     <section className="w-full flex justify-center">
       <div className="flex flex-col gap-5 max-w-[900px] p-5">
         <h1 className="text-center font-semibold text-lg">Products</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
           {!products&&<h4>No products found.</h4>}
           {products?.map((item) => {
             return <ProductCard product={item} key={item?.id} />;
@@ -46,9 +47,9 @@ export function ProductCard({ product }) {
       </Link>
       <div className="">
         <h2 className="text-green-500 text-sm font-semibold">
-          ₹ {product?.salePrice}{" "}
+          $ {product?.salePrice}{" "}
           <span className="line-through text-xs text-gray-600">
-            ₹ {product?.price}
+            $ {product?.price}
           </span>
         </h2>
       </div>
@@ -68,9 +69,9 @@ export function ProductCard({ product }) {
       <div className="flex items-center gap-4 w-full">
         <div className="w-full">
           <Link href={`/checkout?type=buynow&productId=${product?.id}`}>
-            <button className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg text-xs w-full">
+            <Button >
               Buy Now
-            </button>
+            </Button>
           </Link>
         </div>
         <AuthContextProvider>

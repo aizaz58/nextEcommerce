@@ -13,12 +13,12 @@ export default function Collections({ collections }) {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 2,
-    initialSlide: 0,
+   initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2, 
           slidesToScroll: 2,
           infinite: true,
           dots: true,
@@ -49,9 +49,7 @@ export default function Collections({ collections }) {
   return (
     <div className="overflow-hidden md:p-10 p-5">
       <Slider {...settings}>
-        {(collections?.length <= 2
-          ? [...collections, ...collections, ...collections]
-          : collections
+        {( collections
         )?.map((collection) => {
           return (
             <div className="px-2">
