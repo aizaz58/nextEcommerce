@@ -6,9 +6,10 @@ import { getProductReviewCounts } from "@/lib/firestore/products/count/read";
 import { Suspense } from "react";
 import MyRating from "./MyRating";
 import { Button } from "@/components/ui/button";
+import { Product } from "@/lib/types/types";
 
-export default function ProductsGridView({ products }) {
-
+export default function ProductsGridView({ products}: { products: Product[] }) {
+console.log(products)
   if(!products || products===undefined){
     return <h4>No products</h4>
   }
@@ -18,7 +19,7 @@ export default function ProductsGridView({ products }) {
         <h1 className="text-center font-semibold text-lg">Products</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
           {!products&&<h4>No products found.</h4>}
-          {products?.map((item) => {
+          {products?.map((item:Product) => {
             return <ProductCard product={item} key={item?.id} />;
           })}
         </div>
@@ -27,9 +28,10 @@ export default function ProductsGridView({ products }) {
   );
 }
 
-export function ProductCard({ product }) {
+export function ProductCard( {product} : { product: Product }) {
   return (
-    <div className="flex flex-col gap-3 border p-4 rounded-lg">
+    <div className="flex flex-col gap-3 border  rounded-lg">
+      <Link href={`/products/${product?.id}`}>
       <div className="relative w-full">
         <img
           src={product?.featureImageURL}
@@ -42,9 +44,7 @@ export function ProductCard({ product }) {
           </AuthContextProvider>
         </div>
       </div>
-      <Link href={`/products/${product?.id}`}>
         <h1 className="font-semibold line-clamp-2 text-sm">{product?.title}</h1>
-      </Link>
       <div className="">
         <h2 className="text-green-500 text-sm font-semibold">
           $ {product?.salePrice}{" "}
@@ -78,11 +78,12 @@ export function ProductCard({ product }) {
           <AddToCartButton productId={product?.id} />
         </AuthContextProvider>
       </div>
+      </Link>
     </div>
   );
 }
 
-async function RatingReview({ product }) {
+async function RatingReview({ product }: { product: Product }) {
   const counts = await getProductReviewCounts({ productId: product?.id });
   return (
     <div className="flex gap-3 items-center">

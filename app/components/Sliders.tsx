@@ -7,8 +7,9 @@ import Slider from "react-slick";
 import FavoriteButton from "./FavoriteButton";
 import AuthContextProvider from "@/contexts/AuthContext";
 import AddToCartButton from "./AddToCartButton";
+import { Product } from "@/lib/types/types";
 
-export default function FeaturedProductSlider({ featuredProducts }) {
+export default function FeaturedProductSlider({ featuredProducts }:{featuredProducts:Product[]}) {
   var settings = {
     dots: true,
     infinite: false,

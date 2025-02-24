@@ -10,13 +10,16 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useRouter } from "next/navigation";
 
-export default function AddToCartButton({ productId, type }) {
+interface CartItem {
+  id: string;
+  quantity: number;
+}
+export default function AddToCartButton({ productId, type }: { productId: string; type?: string }) {
   const { user } = useAuth();
   const { data } = useUser({ uid: user?.uid });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  const isAdded = data?.carts?.find((item) => item?.id === productId);
+  const isAdded = data?.carts?.find((item:CartItem) => item?.id === productId);
 
   const handlClick = async () => {
     setIsLoading(true);
@@ -26,7 +29,7 @@ export default function AddToCartButton({ productId, type }) {
         throw new Error("Please Logged In First!");
       }
       if (isAdded) {
-        const newList = data?.carts?.filter((item) => item?.id != productId);
+        const newList = data?.carts?.filter((item:CartItem) => item?.id != productId);
         await updateCarts({ list: newList, uid: user?.uid });
       } else {
         await updateCarts({
@@ -34,9 +37,14 @@ export default function AddToCartButton({ productId, type }) {
           uid: user?.uid,
         });
       }
-    } catch (error) {
-      toast.error(error?.message);
+    }catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     }
+    
     setIsLoading(false);
   };
 
@@ -46,7 +54,7 @@ export default function AddToCartButton({ productId, type }) {
         isLoading={isLoading}
         isDisabled={isLoading}
         onClick={handlClick}
-        variant="bordered"
+        variant="ghost"
         className=""
       >
         {!isAdded && "Add To Cart"}
@@ -61,7 +69,7 @@ export default function AddToCartButton({ productId, type }) {
         isLoading={isLoading}
         isDisabled={isLoading}
         onClick={handlClick}
-        variant="bordered"
+        variant="ghost"
         className="w-auto border border-input text-primary hover:text-primary/80  hover:border-primary"
         color="primary"
         size="sm"

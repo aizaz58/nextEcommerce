@@ -1,6 +1,7 @@
 import AddToCartButton from "@/app/components/AddToCartButton";
 import FavoriteButton from "@/app/components/FavoriteButton";
 import MyRating from "@/app/components/MyRating";
+import { Button } from "@/components/ui/button";
 import AuthContextProvider from "@/contexts/AuthContext";
 import { getBrand } from "@/lib/firestore/brands/read_server";
 import { getCategory } from "@/lib/firestore/categories/read_server";
@@ -19,20 +20,20 @@ export default function Details({ product }) {
       <Suspense fallback="Failed To Load">
         <RatingReview product={product} />
       </Suspense>
-      <h2 className="text-gray-600 text-sm line-clamp-3 md:line-clamp-4">
+      <h2 className="text-muted-foreground text-sm line-clamp-3 md:line-clamp-4">
         {product?.shortDescription}
       </h2>
       <h3 className="text-green-500 font-bold text-lg">
-        ₹ {product?.salePrice}{" "}
-        <span className="line-through text-gray-700 text-sm">
-          ₹ {product?.price}
+       $ {product?.salePrice}{" "}
+        <span className="line-through text-muted-foreground text-sm">
+         $ {product?.price}
         </span>
       </h3>
       <div className="flex flex-wrap items-center gap-4">
         <Link href={`/checkout?type=buynow&productId=${product?.id}`}>
-          <button className="bg-black text-white rounded-lg px-4 py-1.5">
+          <Button className=" rounded-lg px-4 py-1.5">
             Buy Now
-          </button>
+          </Button>
         </Link>
         <AuthContextProvider>
           <AddToCartButton type={"cute"} productId={product?.id} />
@@ -50,7 +51,7 @@ export default function Details({ product }) {
       )}
       <div className="flex flex-col gap-2 py-2">
         <div
-          className="text-gray-600"
+          className="text-muted-foreground"
           dangerouslySetInnerHTML={{ __html: product?.description ?? "" }}
         ></div>
       </div>
@@ -85,7 +86,7 @@ async function RatingReview({ product }) {
   return (
     <div className="flex gap-3 items-center">
       <MyRating value={counts?.averageRating ?? 0} />
-      <h1 className="text-sm text-gray-400">
+      <h1 className="text-sm text-muted-foreground">
         <span>{counts?.averageRating?.toFixed(1)}</span> ({counts?.totalReviews}
         )
       </h1>

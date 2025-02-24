@@ -4,6 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "react-hot-toast";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,8 +18,20 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "E Commerce Website",
-  description: "ceated by aizaz",
+  title: "AheadMart | The New place for everything",
+  description: "You can buy everything on amazing discounts",
+  metadataBase: new URL("https://aheadmart.com"),
+  openGraph: {
+    title: "AheadMart | The New place for everything",
+  description: "You can buy everything on amazing discounts",
+    url: "https://aheadmart.com",
+    siteName: "AheadMart",
+  },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   site: TWITTER_USERNAME,
+  //   creator: TWITTER_USERNAME,
+  // },
 };
 
 export default function RootLayout({ children }) {
@@ -27,8 +40,16 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+          <ThemeProvider
+          attribute='class'
+          defaultTheme='light'
+          enableSystem
+          disableTransitionOnChange
+        >
+
         <Toaster />
         <NextUIProvider>{children}</NextUIProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

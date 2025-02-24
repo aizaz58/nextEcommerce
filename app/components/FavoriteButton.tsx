@@ -10,7 +10,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/navigation";
 
-export default function FavoriteButton({ productId }) {
+export default function FavoriteButton({ productId }:{productId:string}) {
   const { user } = useAuth();
   const { data } = useUser({ uid: user?.uid });
   const [isLoading, setIsLoading] = useState(false);
@@ -21,10 +21,11 @@ export default function FavoriteButton({ productId }) {
     try {
       if (!user?.uid) {
         router.push("/login");
-        throw new Error("Please Logged In First!");
+        throw new Error("Please Log In First!");
       }
+      console.log(data)
       if (data?.favorites?.includes(productId)) {
-        const newList = data?.favorites?.filter((item) => item != productId);
+        const newList = data?.favorites?.filter((item:string) => item != productId);
         await updateFavorites({ list: newList, uid: user?.uid });
       } else {
         await updateFavorites({
@@ -32,9 +33,14 @@ export default function FavoriteButton({ productId }) {
           uid: user?.uid,
         });
       }
-    } catch (error) {
-      toast.error(error?.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     }
+    
     setIsLoading(false);
   };
 

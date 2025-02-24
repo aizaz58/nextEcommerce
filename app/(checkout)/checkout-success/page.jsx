@@ -5,27 +5,47 @@ import Link from "next/link";
 import SuccessMessage from "./components/SuccessMessage";
 
 const fetchCheckout = async (checkoutId) => {
-  const list = await adminDB
-    .collectionGroup("checkout_sessions")
-    .where("id", "==", checkoutId)
-    .get();
-  if (list.docs.length === 0) {
-    throw new Error("Invalid Checkout ID");
+  try {
+    const list = await adminDB
+      .collectionGroup("checkout_sessions_cod")
+      .where("id", "==", checkoutId)
+      .get();
+
+    if (list.docs.length === 0) {
+      console.error("Invalid Checkout ID:", checkoutId);
+      return null; // Instead of throwing an error, return null
+    }
+
+    const data = list.docs[0].data();
+    console.log("Fetched Checkout Data:", data);
+    
+    return data;
+  } catch (error) {
+    console.error("Error fetching checkout data:", error);
+    return null;
   }
-  return list.docs[0].data();
 };
 
 const fetchPayment = async (checkoutId) => {
-  const list = await adminDB
-    .collectionGroup("payments")
-    .where("metadata.checkoutId", "==", checkoutId)
-    .where("status", "==", "succeeded")
-    .get();
-  if (list.docs.length === 0) {
-    throw new Error("Invalid Checkout ID");
+  try {
+    const list = await adminDB
+      .collectionGroup("payments")
+      .where("metadata.checkoutId", "==", checkoutId)
+      .where("status", "==", "succeeded")
+      .get();
+
+    if (list.docs.length === 0) {
+      console.error("No payment found for checkout ID:", checkoutId);
+      return null;
+    }
+
+    return list.docs[0].data();
+  } catch (error) {
+    console.error("Error fetching payment data:", error);
+    return null;
   }
-  return list.docs[0].data();
 };
+
 
 const processOrder = async ({ payment, checkout }) => {
   const order = await adminDB.doc(`orders/${payment?.id}`).get();

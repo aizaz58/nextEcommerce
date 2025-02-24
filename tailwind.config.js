@@ -1,12 +1,11 @@
-const { nextui } = require("@nextui-org/react");
+import type { Config } from "tailwindcss";
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
+export default {
+    darkMode: ["class"],
+    content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
   	extend: {
@@ -22,7 +21,7 @@ module.exports = {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: '#fb6540',
+  				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
@@ -59,6 +58,5 @@ module.exports = {
   		}
   	}
   },
-  darkMode: ["class", "class"],
-  plugins: [nextui(), require("tailwindcss-animate")],
-};
+  plugins: [require("tailwindcss-animate")],
+} satisfies Config;

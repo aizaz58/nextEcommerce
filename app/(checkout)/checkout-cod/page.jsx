@@ -3,75 +3,93 @@ import Header from "@/app/components/Header"
 import { admin, adminDB } from "@/lib/firebase_admin"
 import Link from "next/link";
 
-const fetchCheckout = async (checkoutId) => {
-  const list = await adminDB
-    .collectionGroup("checkout_sessions_cod")
-    .where("id", "==", checkoutId)
-    .get();
-  if (list.docs.length === 0) {
-    throw new Error("Invalid Checkout ID");
+// const fetchCheckout = async (checkoutId) => {
+//   const list = await adminDB
+//     .collectionGroup("checkout_sessions_cod")
+//     .where("id", "==", checkoutId)
+//     .get();
+//   if (list.docs.length === 0) {
+//     throw new Error("Invalid Checkout ID");
+//   }
+//   return list?.docs[0]?.data();
+// };
+const safeParseJSON = (data) => {
+  try {
+    return JSON.parse(JSON.stringify(data)); // Ensures valid JSON
+  } catch (error) {
+    console.error("JSON Parsing Error:", error);
+    return null;
   }
-  return list?.docs[0]?.data();
+};
+
+const fetchCheckout = async (checkoutId) => {
+  try {
+    const list = await adminDB
+      .collectionGroup("checkout_sessions_cod")
+      .where("id", "==", checkoutId)
+      .get();
+
+    if (list.docs.length === 0) {
+      console.error("Invalid Checkout ID:", checkoutId);
+      return null; // Instead of throwing an error, return null
+    }
+
+    const data = list.docs[0].data();
+    console.log("Fetched Checkout Data:", data);
+    
+    return data;
+  } catch (error) {
+    console.error("Error fetching checkout data:", error);
+    return null;
+  }
 };
 
 const processOrder = async ({ checkout }) => {
-  const order = await adminDB.doc(`orders/${checkout?.id}`).get();
-  if (order.exists) {
+  if (!checkout) {
+    console.error("Invalid checkout data:", checkout);
     return false;
   }
-  const uid = checkout?.metadata?.uid;
 
-  await adminDB.doc(`orders/${checkout?.id}`).set({
-    checkout: checkout,
-    payment: {
-      amount: checkout?.line_items?.reduce((prev, curr) => {
-        return prev + curr?.price_data?.unit_amount * curr?.quantity;
-      }, 0),
-    },
-    uid: uid,
-    id: checkout?.id,
-    paymentMode: "cod",
-    timestampCreate: admin.firestore.Timestamp.now(),
-  });
+  try {
+    const order = await adminDB.doc(`orders/${checkout.id}`).get();
+    if (order.exists) return false;
 
-  const productList = checkout?.line_items?.map((item) => {
-    return {
-      productId: item?.price_data?.product_data?.metadata?.productId,
-      quantity: item?.quantity,
-    };
-  });
+    const uid = checkout?.metadata?.uid || "unknown";
 
-  const user = await adminDB.doc(`users/${uid}`).get();
-
-  const productIdsList = productList?.map((item) => item?.productId);
-
-  const newCartList = (user?.data()?.carts ?? []).filter(
-    (cartItem) => !productIdsList.includes(cartItem?.id)
-  );
-
-  await adminDB.doc(`users/${uid}`).set(
-    {
-      carts: newCartList,
-    },
-    { merge: true }
-  );
-
-  const batch = adminDB.batch();
-
-  productList?.forEach((item) => {
-    batch.update(adminDB.doc(`products/${item?.productId}`), {
-      orders: admin.firestore.FieldValue.increment(item?.quantity),
+    await adminDB.doc(`orders/${checkout.id}`).set({
+      checkout,
+      payment: {
+        amount: checkout?.line_items?.reduce(
+          (prev, curr) => prev + (curr?.price_data?.unit_amount || 0) * (curr?.quantity || 1),
+          0
+        ),
+      },
+      uid,
+      id: checkout.id,
+      paymentMode: "cod",
+      timestampCreate: admin.firestore.Timestamp.now(),
     });
-  });
 
-  await batch.commit();
-  return true;
+    return true;
+  } catch (error) {
+    console.error("Error processing order:", error);
+    return false;
+  }
 };
+
+
 
 export default async function Page({ searchParams }) {
   const { checkout_id } = searchParams;
-  const checkout = await fetchCheckout(checkout_id);
+  if (!checkout_id) {
+    return <h1 className="text-red-500">Invalid Checkout ID</h1>;
+  }
+  const checkout = safeParseJSON(await fetchCheckout(checkout_id));
 
+
+  if (!checkout) {
+    return <h1 className="text-red-500">Checkout Not Found</h1>;
+  }
   const result = await processOrder({ checkout });
 
   return (

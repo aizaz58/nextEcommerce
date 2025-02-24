@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
@@ -12,7 +13,7 @@ export default function LogoutButton() {
     return <></>;
   }
   return (
-    <button
+    <Button
       onClick={async () => {
         if (!confirm("Are you sure?")) return;
         try {
@@ -21,13 +22,19 @@ export default function LogoutButton() {
             loading: "Loading...",
             success: "Successfully Logged out",
           });
-        } catch (error) {
-          toast.error(error?.message);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            toast.error(error.message);
+          } else {
+            toast.error("An unexpected error occurred");
+          }
         }
+        
       }}
-      className="h-8 w-8 flex justify-center items-center rounded-full hover:bg-gray-50"
+      className=" flex gap-2 px-2 "
+      variant={"ghost"}
     >
-      <LogOut size={14} />
-    </button>
+      <LogOut size={14} />Log Out
+    </Button>
   );
 }
