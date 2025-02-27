@@ -25,14 +25,12 @@ const safeParseJSON = (data) => {
 
 const fetchCheckout = async (checkoutId) => {
   try {
-    debugger
-    console.log(checkoutId)
-    console.log("first",adminDB)
+    
     const list = await adminDB
       .collectionGroup("checkout_sessions_cod")
       .where("id", "==", checkoutId)
       .get();
-console.log("list",list)
+
     if (list?.docs.length === 0) {
       console.error("Invalid Checkout ID:", checkoutId);
       return null; // Instead of throwing an error, return null
@@ -90,7 +88,7 @@ export default async function Page({ searchParams }) {
   if (!checkout_id) {
     return <h1 className="text-red-500">Invalid Checkout ID</h1>;
   }
-  const checkout = (await fetchCheckout(checkout_id));
+  const checkout = safeParseJSON(await fetchCheckout(checkout_id));
 console.log(checkout)
 
   if (!checkout) {
