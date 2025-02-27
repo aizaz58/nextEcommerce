@@ -98,6 +98,7 @@ const processOrder = async ({ payment, checkout }) => {
 };
 
 export default async function Page({ searchParams }) {
+  debugger
   const { checkout_id } = searchParams;
   const checkout = await fetchCheckout(checkout_id);
   const payment = await fetchPayment(checkout_id);

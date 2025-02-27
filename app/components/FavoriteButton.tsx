@@ -23,7 +23,7 @@ export default function FavoriteButton({ productId }:{productId:string}) {
         router.push("/login");
         throw new Error("Please Log In First!");
       }
-      console.log(data)
+    
       if (data?.favorites?.includes(productId)) {
         const newList = data?.favorites?.filter((item:string) => item != productId);
         await updateFavorites({ list: newList, uid: user?.uid });

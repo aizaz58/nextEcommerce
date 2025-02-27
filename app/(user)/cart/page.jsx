@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function Page() {
   const { user } = useAuth();
   const { data, isLoading } = useUser({ uid: user?.uid });
+  debugger
   if (isLoading) {
     return (
       <div className="p-10 flex w-full justify-center">

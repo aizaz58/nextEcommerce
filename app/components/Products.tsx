@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/types/types";
 
 export default function ProductsGridView({ products}: { products: Product[] }) {
-console.log(products)
+
   if(!products || products===undefined){
     return <h4>No products</h4>
   }
@@ -28,11 +28,12 @@ console.log(products)
   );
 }
 
-export function ProductCard( {product} : { product: Product }) {
+
+export function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="flex flex-col gap-3 border  rounded-lg">
-      <Link href={`/products/${product?.id}`}>
-      <div className="relative w-full">
+    <div className="flex flex-col gap-3 border rounded-lg">
+      {/* Wrap only the image inside the Link */}
+      <Link href={`/products/${product?.id}`} className="relative w-full block">
         <img
           src={product?.featureImageURL}
           className="rounded-lg h-48 w-full object-cover"
@@ -43,9 +44,14 @@ export function ProductCard( {product} : { product: Product }) {
             <FavoriteButton productId={product?.id} />
           </AuthContextProvider>
         </div>
-      </div>
-        <h1 className="font-semibold line-clamp-2 text-sm">{product?.title}</h1>
-      <div className="">
+      </Link>
+
+      {/* Title should be inside a Link separately */}
+      <Link href={`/products/${product?.id}`} className="font-semibold line-clamp-2 text-sm">
+        {product?.title}
+      </Link>
+
+      <div>
         <h2 className="text-green-500 text-sm font-semibold">
           $ {product?.salePrice}{" "}
           <span className="line-through text-xs text-gray-600">
@@ -53,12 +59,15 @@ export function ProductCard( {product} : { product: Product }) {
           </span>
         </h2>
       </div>
+      
       <p className="text-xs text-gray-500 line-clamp-2">
         {product?.shortDescription}
       </p>
+
       <Suspense>
         <RatingReview product={product} />
       </Suspense>
+
       {product?.stock <= (product?.orders ?? 0) && (
         <div className="flex">
           <h3 className="text-red-500 rounded-lg text-xs font-semibold">
@@ -66,22 +75,21 @@ export function ProductCard( {product} : { product: Product }) {
           </h3>
         </div>
       )}
+
       <div className="flex items-center gap-4 w-full">
         <div className="w-full">
           <Link href={`/checkout?type=buynow&productId=${product?.id}`}>
-            <Button >
-              Buy Now
-            </Button>
+            <Button>Buy Now</Button>
           </Link>
         </div>
         <AuthContextProvider>
           <AddToCartButton productId={product?.id} />
         </AuthContextProvider>
       </div>
-      </Link>
     </div>
   );
 }
+
 
 async function RatingReview({ product }: { product: Product }) {
   const counts = await getProductReviewCounts({ productId: product?.id });

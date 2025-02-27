@@ -21,7 +21,7 @@ export default function HeaderClientButtons() {
 
   if(!user){
     <Button asChild>
-    <Link href='/sign-in'>
+    <Link href='/login'>
     <UserCircle2 size={14} />
     </Link>
   </Button>
@@ -140,7 +140,7 @@ export default function HeaderClientButtons() {
 className='focus-visible:ring-0 rounded-full focus-visible:ring-offset-0'
 size={"icon"}
 >
-<Link href='/sign-in'>
+<Link href='/login'>
 <UserCircle2 size={14} />
 </Link>
 </Button>

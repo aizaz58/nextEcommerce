@@ -1,5 +1,6 @@
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
+import { Button } from "@/components/ui/button";
 import { admin, adminDB } from "@/lib/firebase_admin"
 import Link from "next/link";
 
@@ -24,18 +25,21 @@ const safeParseJSON = (data) => {
 
 const fetchCheckout = async (checkoutId) => {
   try {
+    debugger
+    console.log(checkoutId)
+    console.log("first",adminDB)
     const list = await adminDB
       .collectionGroup("checkout_sessions_cod")
       .where("id", "==", checkoutId)
       .get();
-
-    if (list.docs.length === 0) {
+console.log("list",list)
+    if (list?.docs.length === 0) {
       console.error("Invalid Checkout ID:", checkoutId);
       return null; // Instead of throwing an error, return null
     }
 
     const data = list.docs[0].data();
-    console.log("Fetched Checkout Data:", data);
+    
     
     return data;
   } catch (error) {
@@ -80,12 +84,14 @@ const processOrder = async ({ checkout }) => {
 
 
 export default async function Page({ searchParams }) {
+  debugger
   const { checkout_id } = searchParams;
+  
   if (!checkout_id) {
     return <h1 className="text-red-500">Invalid Checkout ID</h1>;
   }
-  const checkout = safeParseJSON(await fetchCheckout(checkout_id));
-
+  const checkout = (await fetchCheckout(checkout_id));
+console.log(checkout)
 
   if (!checkout) {
     return <h1 className="text-red-500">Checkout Not Found</h1>;
@@ -105,9 +111,9 @@ export default async function Page({ searchParams }) {
         </h1>
         <div className="flex items-center gap-4 text-sm">
           <Link href={"/account"}>
-            <button className="text-blue-600 border border-blue-600 px-5 py-2 rounded-lg bg-white">
+          <Button>
               Go To Orders Page
-            </button>
+          </Button>
           </Link>
         </div>
       </section>

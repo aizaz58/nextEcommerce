@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva ,type VariantProps} from "class-variance-authority";
 
 import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -14,7 +15,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input hover:border-primary bg-background text-primary shadow-sm hover:bg-accent hover:text-primary/80",
+          "border border-input hover:border-primary  text-primary shadow-sm hover:bg-accent hover:text-primary/80",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
           ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -42,7 +43,7 @@ export interface ButtonProps
   isIconOnly?:boolean;
 }
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false,isLoading,isDisabled,isIconOnly, ...props }, ref) => {
+  ({ className, variant, size, asChild = false,isLoading,isDisabled,isIconOnly,children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
@@ -53,7 +54,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={isDisabled || isLoading}
         {...props}
-      />
+      >
+         {isLoading ? (<div className="flex items-center justify-center gap-2">
+
+{children} <Loader2 className="animate-spin size-5 text-white dark:text-black" /> 
+</div>
+) : (
+ children
+)}
+      </Comp>
     )
   }
 )
