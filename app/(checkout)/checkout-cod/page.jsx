@@ -82,14 +82,13 @@ const processOrder = async ({ checkout }) => {
 
 
 export default async function Page({ searchParams }) {
-  debugger
+  
   const { checkout_id } = searchParams;
   
   if (!checkout_id) {
     return <h1 className="text-red-500">Invalid Checkout ID</h1>;
   }
   const checkout = safeParseJSON(await fetchCheckout(checkout_id));
-console.log(checkout)
 
   if (!checkout) {
     return <h1 className="text-red-500">Checkout Not Found</h1>;

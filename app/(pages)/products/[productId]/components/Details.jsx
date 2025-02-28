@@ -63,8 +63,8 @@ async function Category({ categoryId }) {
   const category = await getCategory({ id: categoryId });
   return (
     <Link href={`/categories/${categoryId}`}>
-      <div className="flex items-center gap-1 border px-3 py-1 rounded-full">
-        <img className="h-4" src={category?.imageURL} alt="" />
+      <div className="flex items-center gap-1 border border-primary px-3 py-1 rounded-full">
+        {/* <img className="h-4" src={category?.imageURL} alt="" /> */}
         <h4 className="text-xs font-semibold">{category?.name}</h4>
       </div>
     </Link>
@@ -74,8 +74,8 @@ async function Category({ categoryId }) {
 async function Brand({ brandId }) {
   const brand = await getBrand({ id: brandId });
   return (
-    <div className="flex items-center gap-1 border px-3 py-1 rounded-full">
-      <img className="h-4" src={brand?.imageURL} alt="" />
+    <div className="flex items-center gap-1 border border-primary px-3 py-1 rounded-full">
+      {/* <img className="h-4" src={brand?.imageURL} alt="" /> */}
       <h4 className="text-xs font-semibold">{brand?.name}</h4>
     </div>
   );

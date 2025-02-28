@@ -54,7 +54,7 @@ export default function AddToCartButton({ productId, type }: { productId: string
         isLoading={isLoading}
         isDisabled={isLoading}
         onClick={handlClick}
-        variant="ghost"
+        variant={"outline"}
         className=""
       >
         {!isAdded && "Add To Cart"}
@@ -70,7 +70,7 @@ export default function AddToCartButton({ productId, type }: { productId: string
         isDisabled={isLoading}
         onClick={handlClick}
         variant="ghost"
-        className="w-auto border border-input text-primary hover:text-primary/80  hover:border-primary"
+        className="w-auto border border-secondary-foreground text-primary hover:text-primary/80  hover:border-primary"
         color="primary"
         size="sm"
       >
@@ -87,10 +87,13 @@ export default function AddToCartButton({ productId, type }: { productId: string
       isLoading={isLoading}
       isDisabled={isLoading}
       onClick={handlClick}
-      variant="outline"
+      
       isIconOnly
+      className="w-full"
   
     >
+       {!isAdded && "Add To Cart"}
+       {isAdded && "Click To Remove"}
       {!isAdded && <AddShoppingCartIcon className="text-xs" />}
       {isAdded && <ShoppingCartIcon className="text-xs" />}
     </Button>
