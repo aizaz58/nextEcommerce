@@ -8,22 +8,23 @@ import FavoriteButton from "./FavoriteButton";
 import AuthContextProvider from "@/contexts/AuthContext";
 import AddToCartButton from "./AddToCartButton";
 import { Product } from "@/lib/types/types";
+import Image from "next/image";
 
 export default function FeaturedProductSlider({ featuredProducts }:{featuredProducts:Product[]}) {
   var settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
   };
   return (
-    <div  className="flex flex-col gap-8 justify-center overflow-hidden md:p-10 p-5">
+    <div  className="flex flex-col  gap-8 justify-center overflow-hidden md:p-10 p-5">
       <Slider {...settings}>
         {featuredProducts?.map((product,i) => {
           return (
             <div key={i}>
-              <div className="flex flex-col-reverse md:flex-row gap-4 bg-[#f8f8f8] p-5 md:px-24 md:py-20 w-full">
+              <div className="flex flex-col-reverse md:flex-row shadow-xl gap-4 bg-primary-foreground p-5 md:px-24 md:py-20 w-full">
                 <div className="flex-1 flex flex-col md:gap-10 gap-4">
                   
                   <div className="flex flex-col gap-4">
@@ -52,7 +53,9 @@ export default function FeaturedProductSlider({ featuredProducts }:{featuredProd
                 </div>
                 <div className="">
                   <Link href={`/products/${product?.id}`}>
-                    <img
+                    <Image
+                    height={368}
+                    width={368}
                       className="h-[14rem] md:h-[23rem]"
                       src={product?.featureImageURL}
                       alt=""

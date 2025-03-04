@@ -12,10 +12,7 @@ import { Suspense } from "react";
 export default function Details({ product }) {
   return (
     <div className="w-full flex flex-col gap-3">
-      <div className="flex gap-3">
-        <Category categoryId={product?.categoryId} />
-        <Brand brandId={product?.brandId} />
-      </div>
+     
       <h1 className="font-semibold text-xl md:text-4xl">{product?.title}</h1>
       <Suspense fallback="Failed To Load">
         <RatingReview product={product} />
@@ -59,7 +56,7 @@ export default function Details({ product }) {
   );
 }
 
-async function Category({ categoryId }) {
+export async function Category({ categoryId }) {
   const category = await getCategory({ id: categoryId });
   return (
     <Link href={`/categories/${categoryId}`}>
@@ -71,7 +68,7 @@ async function Category({ categoryId }) {
   );
 }
 
-async function Brand({ brandId }) {
+export async function Brand({ brandId }) {
   const brand = await getBrand({ id: brandId });
   return (
     <div className="flex items-center gap-1 border border-primary px-3 py-1 rounded-full">

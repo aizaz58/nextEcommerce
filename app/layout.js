@@ -23,15 +23,15 @@ export const metadata = {
   metadataBase: new URL("https://aheadmart.com"),
   openGraph: {
     title: "AheadMart | The New place for everything",
-  description: "You can buy everything on amazing discounts",
+    description: "You can buy everything on amazing discounts",
     url: "https://aheadmart.com",
     siteName: "AheadMart",
   },
-  // twitter: {
-  //   card: "summary_large_image",
-  //   site: TWITTER_USERNAME,
-  //   creator: TWITTER_USERNAME,
-  // },
+  icons: {
+    icon: "/favicon.ico", // Default favicon
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png", // For Apple devices
+  },
 };
 
 export default function RootLayout({ children }) {

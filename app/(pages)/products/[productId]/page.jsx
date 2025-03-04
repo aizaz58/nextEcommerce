@@ -1,6 +1,6 @@
 import { getProduct } from "@/lib/firestore/products/read_server";
 import Photos from "./components/Photos";
-import Details from "./components/Details";
+import Details, { Brand, Category } from "./components/Details";
 import Reviews from "./components/Reviews";
 import RelatedProducts from "./components/RelatedProducts";
 import AddReview from "./components/AddReiveiw";
@@ -24,7 +24,11 @@ export default async function Page({ params }) {
   const product = await getProduct({ id: productId });
   return (
     <main className="p-5 md:p-10">
-      <section className="flex flex-col-reverse md:flex-row gap-3">
+         <div className="flex gap-3 pb-6">
+                <Category categoryId={product?.categoryId} />
+                <Brand brandId={product?.brandId} />
+              </div>
+      <section className="flex flex-col md:flex-row gap-3">
         <Photos
           imageList={[product?.featureImageURL, ...(product?.imageList ?? [])]}
         />
