@@ -42,7 +42,7 @@ export default async function Page({ params }) {
           </div>
         </AuthContextProvider>
       </div>
-      <RelatedProducts categoryId={product?.categoryId} />
+      <RelatedProducts categoryId={product?.categoryId} productId={productId} />
     </main>
   );
 }

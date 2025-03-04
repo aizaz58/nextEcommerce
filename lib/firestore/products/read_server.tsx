@@ -33,7 +33,7 @@ export const getProducts = async () => {
   return list.docs.map((snap) => snap.data())  as Product[];
 };
 
-export const getProductsByCategory = async ({ categoryId }:{categoryId:string}) => {
+export const getProductsByCategory = async ({ categoryId, excludeId }:{categoryId:string, excludeId:string}) => {
   const list = await getDocs(
     query(
       collection(db, "products"),
@@ -41,5 +41,9 @@ export const getProductsByCategory = async ({ categoryId }:{categoryId:string}) 
       where("categoryId", "==", categoryId)
     )
   );
-  return list.docs.map((snap) => snap.data());
+  
+  // Filter out the product that matches excludeId
+  return list.docs
+    .map((snap) => snap.data())
+    .filter((product) => product.id !== excludeId);
 };
