@@ -9,6 +9,11 @@ export default {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			archivo: "var(--font-archivo)",
+			staatliches: "var(--font-staatliches)",
+			jetbrains: "var(--font-jetbrains-mono)",
+		  },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

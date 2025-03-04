@@ -5,17 +5,10 @@ import { Toaster } from "react-hot-toast";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ThemeProvider } from "next-themes";
+import { cn } from "@/lib/utils";
+import { archivo, jetbrainsMono, staatliches } from "./fonts";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+
 
 export const metadata = {
   title: "AheadMart | The New place for everything",
@@ -36,10 +29,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html  className={cn(
+      archivo.variable,
+      staatliches.variable,
+      jetbrainsMono.variable,
+    )}
+    suppressHydrationWarning
+     lang="en">
+      <body className="font-archivo">
           <ThemeProvider
           attribute='class'
           defaultTheme='light'

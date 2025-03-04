@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Layout({ children }) {
   return (
@@ -25,18 +26,18 @@ function UserChecking({ children }) {
   if (isLoading) {
     return (
       <div className="h-screen w-full flex justify-center items-center">
-        <CircularProgress />
+        <CircularProgress  className="text-primary-foreground"/>
       </div>
     );
   }
   if (!user) {
     return (
       <div className="h-screen w-full flex flex-col gap-3 justify-center items-center">
-        <h1 className="text-sm text-gray-600">You are not logged In!</h1>
+        <h1 className="text-sm text-muted-foreground">You are not logged In!</h1>
         <Link href={"/login"}>
-          <button className="text-white bg-blue-500 px-4 py-2 text-sm rounded-xl">
+          <Button className=" text-sm px-6 rounded-xl">
             Login
-          </button>
+          </Button>
         </Link>
       </div>
     );

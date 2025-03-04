@@ -1,14 +1,16 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { auth } from "@/lib/firebase";
 import { createUser } from "@/lib/firestore/user/write";
-import { Button } from "@nextui-org/react";
+
 import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -39,12 +41,25 @@ export default function Page() {
   };
 
   return (
-    <main className="w-full flex justify-center items-center bg-gray-300 md:p-24 p-10 min-h-screen">
+    <main className=" w-full flex justify-center items-center  md:p-24  min-h-screen">
       <section className="flex flex-col gap-3">
         <div className="flex justify-center">
-          <img className="h-12" src="/logo.png" alt="Logo" />
+        <Link href={"/"} className='flex justify-center items-center flex-start md:ml-2 ml-4'>
+
+<Image
+             src='/svgs/logo.svg'
+             alt={`logo`}
+             height={48}
+             width={48}
+             priority={true}
+           />
+            <span className=' font-bold text-2xl ml-3'>
+             AHEADMART
+           </span>
+     </Link>
+  
         </div>
-        <div className="flex flex-col gap-3 bg-white md:p-10 p-5 rounded-xl md:min-w-[440px] w-full">
+        <div className="flex flex-col gap-3  md:p-10 p-5 rounded-xl w-full md:min-w-[440px]">
           <h1 className="font-bold text-xl">Forgot Password</h1>
           <form
             onSubmit={(e) => {
@@ -76,9 +91,9 @@ export default function Page() {
           </form>
           <div className="flex justify-between">
             <Link href={`/login`}>
-              <button className="font-semibold text-sm text-blue-700">
+              <Button variant="secondary"  className="font-semibold text-sm  ">
                 Sign In
-              </button>
+              </Button>
             </Link>
           </div>
         </div>
