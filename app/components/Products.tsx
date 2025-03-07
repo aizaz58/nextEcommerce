@@ -32,7 +32,7 @@ export default function ProductsGridView({ products }: { products: Product[] }) 
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="flex  flex-col  border border-muted-foreground/30 dark:border-muted-foreground/50 rounded-lg">
+    <div className="flex  flex-col shadow-xl  border border-muted-foreground/30 dark:border-muted-foreground/50 rounded-lg">
       {/* Wrap only the image inside the Link */}
       <Link href={`/products/${product?.id}`} className="relative w-full block">
         <Image

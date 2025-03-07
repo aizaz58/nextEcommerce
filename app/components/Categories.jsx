@@ -1,19 +1,21 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
-import { collection } from "firebase/firestore";
-import { Heart } from "lucide-react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "react-slick";
 
 export default function Categories({ categories }) {
-  var settings = {
+  const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
+    autoplay: true,
+    speed: 2000,
+    autoplaySpeed: 15000,
+    cssEase: "linear",
     initialSlide: 0,
     responsive: [
       {
@@ -52,7 +54,9 @@ export default function Categories({ categories }) {
       <div className="flex justify-center w-full">
         <h1 className="text-lg font-semibold">Shop By Category</h1>
       </div>
-      <Slider {...settings}>
+      <div className="category-slider">
+
+      <Slider className="" {...settings}>
         {(categories?.length <= 2
           ? [...categories, ...categories, ...categories]
           : categories
@@ -72,6 +76,7 @@ export default function Categories({ categories }) {
           );
         })}
       </Slider>
+        </div>
     </div>
   );
 }

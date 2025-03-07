@@ -18,6 +18,9 @@
 .slick-dots{
     bottom:5px;
 }
+.category-slider .slick-dots{
+    bottom:-30px;
+}
 .slick-dots li button:before{
 
     color: hsl(var(--foreground)); 
