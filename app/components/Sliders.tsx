@@ -9,22 +9,27 @@ import AuthContextProvider from "@/contexts/AuthContext";
 import AddToCartButton from "./AddToCartButton";
 import { Product } from "@/lib/types/types";
 import Image from "next/image";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./style.css";
 export default function FeaturedProductSlider({ featuredProducts }:{featuredProducts:Product[]}) {
-  var settings = {
+  const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    speed: 2000,
+    autoplaySpeed: 15000,
+    cssEase: "linear"
   };
   return (
-    <div  className="flex flex-col  gap-8 justify-center overflow-hidden md:p-10 p-5">
+    <div  className="slider-container flex flex-col  gap-8 justify-center overflow-hidden md:p-10 p-5">
       <Slider {...settings}>
         {featuredProducts?.map((product,i) => {
           return (
             <div key={i}>
-              <div className="flex flex-col-reverse md:flex-row shadow-xl gap-4 bg-primary-foreground p-5 md:px-24 md:py-20 w-full">
+              <div className="flex flex-col-reverse md:flex-row drop-shadow-2xl  gap-4 bg-primary-foreground p-5 md:px-24 md:py-20 w-full">
                 <div className="flex-1 flex flex-col md:gap-10 gap-4">
                   
                   <div className="flex flex-col gap-4">

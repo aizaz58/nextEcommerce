@@ -38,6 +38,9 @@ export default function Reviews({ productId }) {
     <div className="flex flex-col gap-3 p-3 rounded-xl border w-full">
       <h1 className="text-lg font-semibold">Reviews</h1>
       <div className="flex flex-col gap-4">
+        {(data?.length === 0||data===undefined||data===null) && (
+          <div className="text-muted-foreground text-center">No Reviews Yet</div>
+        )}
         {data?.map((item) => {
           return (
             <div className="flex gap-3">

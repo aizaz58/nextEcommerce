@@ -1,0 +1,48 @@
+.slick-next {
+    right:0px
+}
+.slick-prev{
+    left: 0px;
+    z-index:999;
+}
+/* .slick-next,.slick-prev{
+    
+} */
+ .slick-prev:before, .slick-next:before {
+     color: hsl(var(--foreground)); 
+
+ }
+.slick-dots li {
+    transition: all 0.3s ease-in-out;
+  }
+.slick-dots{
+    bottom:5px;
+}
+.slick-dots li button:before{
+
+    color: hsl(var(--foreground)); 
+}
+  .slick-dots li button {
+    border: none;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .slick-dots li.slick-active {
+    width: 30px; /* Increase width of the parent li */
+    
+    height:5px
+  }
+  
+  .slick-dots li.slick-active button {
+    border-radius: 5px; /* Keep it pill-shaped */
+    background-color: hsl(var(--foreground));
+    width: 30px;
+height: 5px;
+   
+  }
+  .slick-dots li.slick-active button::before {
+    content: "";
+    display: none;
+  }

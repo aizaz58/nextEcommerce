@@ -3,6 +3,7 @@ import { getProductsByCategory } from "@/lib/firestore/products/read_server";
 
 export default async function RelatedProducts({ categoryId, productId }) {
   const products = await getProductsByCategory({ categoryId: categoryId,excludeId: productId });
+  if(products.length==0) return null;
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col gap-5 max-w-[900px] p-5">
