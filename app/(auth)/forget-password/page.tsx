@@ -1,44 +1,38 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
-import { auth } from "@/lib/firebase";
-import { createUser } from "@/lib/firestore/user/write";
 
+import { Button } from "@/components/ui/button"
+import { auth } from "@/lib/firebase" 
 import {
-  createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  updateProfile,
-} from "firebase/auth";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+} from "firebase/auth" 
+import Image from "next/image" 
+import Link from "next/link" 
+import { useState } from "react" 
+import toast from "react-hot-toast" 
 
 export default function Page() {
-  const { user } = useAuth();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(false) 
+  const [data, setData] = useState<{ email?: string }>({}) 
 
-  const handleData = (key, value) => {
+  const handleData = (key: string, value: string) => {
     setData({
       ...data,
       [key]: value,
-    });
-  };
+    }) 
+  } 
 
   const handleSendEmail = async () => {
-    setIsLoading(true);
+    setIsLoading(true) 
     try {
-      await sendPasswordResetEmail(auth, data?.email);
-      toast.success("Reset Link has been sent to your email!");
-    } catch (error) {
-      toast.error(error?.message);
+      await sendPasswordResetEmail(auth, data?.email || "") 
+      toast.success("Reset Link has been sent to your email!") 
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "An error occurred"
+      toast.error(errorMessage) 
     }
-    setIsLoading(false);
-  };
+    setIsLoading(false) 
+  } 
 
   return (
     <main className=" w-full flex justify-center items-center  md:p-24  min-h-screen">
@@ -63,8 +57,8 @@ export default function Page() {
           <h1 className="font-bold text-xl">Forgot Password</h1>
           <form
             onSubmit={(e) => {
-              e.preventDefault();
-              handleSendEmail();
+              e.preventDefault() 
+              handleSendEmail() 
             }}
             className="flex flex-col gap-3"
           >
@@ -75,7 +69,7 @@ export default function Page() {
               id="user-email"
               value={data?.email}
               onChange={(e) => {
-                handleData("email", e.target.value);
+                handleData("email", e.target.value) 
               }}
               className="px-3 py-2 rounded-xl border focus:outline-none w-full"
             />
@@ -84,7 +78,6 @@ export default function Page() {
               isLoading={isLoading}
               isDisabled={isLoading}
               type="submit"
-              color="primary"
             >
               Send Reset Link
             </Button>
@@ -99,5 +92,5 @@ export default function Page() {
         </div>
       </section>
     </main>
-  );
+  )
 }

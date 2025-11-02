@@ -1,50 +1,50 @@
-"use client";
+"use client"
 
-import { useAuth } from "@/contexts/AuthContext";
-import { auth } from "@/lib/firebase";
-import { createUser } from "@/lib/firestore/user/write";
-import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext" 
+import { auth } from "@/lib/firebase" 
+import { createUser } from "@/lib/firestore/user/write" 
+import { Button } from "@/components/ui/button" 
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
-} from "firebase/auth";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+} from "firebase/auth" 
+import Image from "next/image" 
+import Link from "next/link" 
+import { useRouter } from "next/navigation" 
+import { useEffect, useState } from "react" 
+import toast from "react-hot-toast" 
 
 export default function Page() {
-  const { user } = useAuth();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth() 
+  const router = useRouter() 
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({})
 
   const handleData = (key, value) => {
     setData({
       ...data,
       [key]: value,
-    });
-  };
+    })
+  }
 
   const handleLogin = async () => {
-    setIsLoading(true);
+    setIsLoading(true) 
     try {
-      await signInWithEmailAndPassword(auth, data?.email, data?.password);
-      toast.success("Logged In Successfully");
+      await signInWithEmailAndPassword(auth, data?.email, data?.password) 
+      toast.success("Logged In Successfully") 
     } catch (error) {
-      toast.error(error?.message);
+      toast.error(error?.message) 
     }
-    setIsLoading(false);
-  };
+    setIsLoading(false) 
+  } 
 
   useEffect(() => {
     if (user) {
-      router.push("/account");
+      router.push("/account") 
     }
-  }, [user]);
+  }, [user])
 
   return (
     
@@ -61,8 +61,8 @@ export default function Page() {
           <h1 className=" text-center w-auto font-bold text-xl">Login With Email</h1>
           <form
             onSubmit={(e) => {
-              e.preventDefault();
-              handleLogin();
+              e.preventDefault() 
+              handleLogin() 
             }}
             className="flex flex-col gap-3"
           >
@@ -73,7 +73,7 @@ export default function Page() {
               id="user-email"
               value={data?.email}
               onChange={(e) => {
-                handleData("email", e.target.value);
+                handleData("email", e.target.value) 
               }}
               className="px-3 py-2 rounded-xl border focus:outline-none w-full"
             />
@@ -84,7 +84,7 @@ export default function Page() {
               id="user-password"
               value={data?.password}
               onChange={(e) => {
-                handleData("password", e.target.value);
+                handleData("password", e.target.value) 
               }}
               className="px-3 py-2 rounded-xl border focus:outline-none w-full"
             />
@@ -94,7 +94,6 @@ export default function Page() {
               isLoading={isLoading}
               isDisabled={isLoading}
               type="submit"
-              color="primary"
             >
              {isLoading?"Loging In": "Login"}
             </Button>
@@ -116,29 +115,29 @@ export default function Page() {
         </div>
       </section>
     </main>
-  );
+  )
 }
 
 function SignInWithGoogleComponent() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false) 
   const handleLogin = async () => {
-    setIsLoading(true);
+    setIsLoading(true) 
     try {
-      const credential = await signInWithPopup(auth, new GoogleAuthProvider());
-      const user = credential.user;
+      const credential = await signInWithPopup(auth, new GoogleAuthProvider()) 
+      const user = credential.user 
       await createUser({
         uid: user?.uid,
         displayName: user?.displayName,
         photoURL: user?.photoURL,
-      });
+      }) 
     } catch (error) {
-      toast.error(error?.message);
+      toast.error(error?.message) 
     }
-    setIsLoading(false);
-  };
+    setIsLoading(false) 
+  } 
   return (
     <Button isLoading={isLoading} isDisabled={isLoading} onClick={handleLogin}>
       Sign In With Google
     </Button>
-  );
+  )
 }

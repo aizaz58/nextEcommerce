@@ -1,8 +1,6 @@
-"use client";
+"use client"
 
 import { useEffect, useRef, useState } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdmin } from "@/lib/firestore/admins/read";
@@ -27,6 +25,11 @@ export default function AdminLayout({ children }) {
   }, [pathname]);
 
   useEffect(() => {
+    // Only run in browser (not during SSR)
+    if (typeof document === "undefined") {
+      return;
+    }
+
     function handleClickOutsideEvent(event) {
       if (sidebarRef.current && !sidebarRef?.current?.contains(event.target)) {
         setIsOpen(false);
@@ -45,7 +48,9 @@ export default function AdminLayout({ children }) {
       </div>
     );
   }
-
+if (!user) {
+    return null; // Don't render anything during SSR
+  }
   if (error) {
     return (
       <div className="h-screen w-screen flex justify-center items-center">
@@ -67,12 +72,12 @@ export default function AdminLayout({ children }) {
           Logout
         </Button>
       </div>
-    );
+    )
   }
 
   return (
     <AppSidebar>
       {children}
     </AppSidebar>
-  );
+  )
 }

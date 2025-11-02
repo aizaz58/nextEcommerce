@@ -34,6 +34,11 @@ function useIsTablet() {
   const [isTablet, setIsTablet] = useState(false)
 
   useEffect(() => {
+    // Only run in browser (not during SSR)
+    if (typeof window === "undefined") {
+      return
+    }
+
     const checkTablet = () => {
       const width = window.innerWidth
       // Tablet: 768px to 1024px

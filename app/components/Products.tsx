@@ -1,13 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
 import AuthContextProvider from "@/contexts/AuthContext";
 import AddToCartButton from "./AddToCartButton";
-import { getProductReviewCounts } from "@/lib/firestore/products/count/read";
 import { Suspense } from "react";
-import MyRating from "./MyRating";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/types/types";
 import Image from "next/image";
+import RatingReview from "./RatingReview";
 
 export default function ProductsGridView({ products }: { products: Product[] }) {
 
@@ -97,20 +98,6 @@ export function ProductCard({ product }: { product: Product }) {
           </AuthContextProvider>
         </div>
       </div>
-    </div>
-  );
-}
-
-
-async function RatingReview({ product }: { product: Product }) {
-  const counts = await getProductReviewCounts({ productId: product?.id });
-  return (
-    <div className="flex gap-1 md:gap-3 items-center">
-      <MyRating  value={counts?.averageRating ?? 0} />
-      <h1 className="text-xs text-muted-foreground">
-        <span>{counts?.averageRating?.toFixed(1)}</span> ({counts?.totalReviews}
-        )
-      </h1>
     </div>
   );
 }

@@ -71,7 +71,6 @@ export default function AddToCartButton({ productId, type }: { productId: string
         onClick={handlClick}
         variant="ghost"
         className="w-auto border border-secondary-foreground text-primary hover:text-primary/80  hover:border-primary"
-        color="primary"
         size="sm"
       >
         {!isAdded && <AddShoppingCartIcon className="text-xs" />}

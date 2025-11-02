@@ -1,53 +1,52 @@
-"use client";
+"use client"
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { auth } from "@/lib/firebase";
 import { createUser } from "@/lib/firestore/user/write";
-;
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast" 
 
 export default function Page() {
-  const { user } = useAuth();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({});
+  const { user } = useAuth()
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [data, setData] = useState({})
 
   const handleData = (key, value) => {
     setData({
       ...data,
       [key]: value,
-    });
-  };
+    }) 
+  } 
   const handleSignUp = async () => {
-    setIsLoading(true);
+    setIsLoading(true) 
     try {
       const credential = await createUserWithEmailAndPassword(
         auth,
         data?.email,
         data?.password
-      );
+      ) 
       await updateProfile(credential.user, {
         displayName: data?.name,
-      });
-      const user = credential.user;
+      }) 
+      const user = credential.user 
       await createUser({
         uid: user?.uid,
         displayName: data?.name,
         photoURL: user?.photoURL,
-      });
-      toast.success("Successfully Sign Up");
-      router.push("/account");
+      }) 
+      toast.success("Successfully Sign Up") 
+      router.push("/account") 
     } catch (error) {
-      toast.error(error?.message);
+      toast.error(error?.message) 
     }
-    setIsLoading(false);
-  };
+    setIsLoading(false) 
+  } 
 
   return (
     <main className="w-full flex justify-center items-center  md:p-24  min-h-screen">
@@ -72,8 +71,8 @@ export default function Page() {
           <h1 className=" text-center font-bold text-xl">Sign Up With Email</h1>
           <form
             onSubmit={(e) => {
-              e.preventDefault();
-              handleSignUp();
+              e.preventDefault() 
+              handleSignUp() 
             }}
             className="flex flex-col gap-3"
           >
@@ -84,7 +83,7 @@ export default function Page() {
               id="user-name"
               value={data?.name}
               onChange={(e) => {
-                handleData("name", e.target.value);
+                handleData("name", e.target.value) 
               }}
               className="px-3 py-2 rounded-xl border focus:outline-none w-full"
             />
@@ -95,7 +94,7 @@ export default function Page() {
               id="user-email"
               value={data?.email}
               onChange={(e) => {
-                handleData("email", e.target.value);
+                handleData("email", e.target.value) 
               }}
               className="px-3 py-2 rounded-xl border focus:outline-none w-full"
             />
@@ -106,7 +105,7 @@ export default function Page() {
               id="user-password"
               value={data?.password}
               onChange={(e) => {
-                handleData("password", e.target.value);
+                handleData("password", e.target.value) 
               }}
               className="px-3 py-2 rounded-xl border focus:outline-none w-full"
             />
@@ -115,7 +114,6 @@ export default function Page() {
             isLoading={isLoading}
             isDisabled={isLoading}
             type="submit"
-            color="primary"
           >
               Sign Up
             </Button>
@@ -131,5 +129,5 @@ export default function Page() {
         </div>
       </section>
     </main>
-  );
+  ) 
 }
