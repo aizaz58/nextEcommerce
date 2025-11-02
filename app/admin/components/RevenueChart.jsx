@@ -30,7 +30,9 @@ export default function RevenueChart({ items }) {
         label: "Revenue",
         data: items?.map((item) => (item?.data?.totalRevenue ?? 0) / 100),
         backgroundColor: "#879fff20",
-        borderColor: "#879fff80",
+        borderColor: "text-foreground",
+        borderWidth: 1,
+        barThickness: 30,
       },
     ],
   };
@@ -60,8 +62,10 @@ export default function RevenueChart({ items }) {
   };
 
   return (
-    <section className="bg-white p-5 rounded-xl shadow w-full h-[430px]">
-      <Line data={data} options={options} />
+    <section className="bg-card text-foreground p-5 rounded-xl shadow w-full h-[430px] min-w-0">
+      <div className="w-full h-full min-w-0">
+        <Line data={data} options={options} />
+      </div>
     </section>
   );
 }

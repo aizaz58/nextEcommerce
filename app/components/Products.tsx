@@ -35,13 +35,16 @@ export function ProductCard({ product }: { product: Product }) {
     <div className="flex  flex-col shadow-xl  border border-muted-foreground/30 dark:border-muted-foreground/50 rounded-lg">
       {/* Wrap only the image inside the Link */}
       <Link href={`/products/${product?.id}`} className="relative w-full block">
+      <div className=" w-full  object-top aspect-[130/207]">
         <Image
-        height={200}
-        width={100}
+      
           src={product?.featureImageURL}
-          className="rounded-lg h-56 w-full object-cover"
-          alt={product?.title}
+          fill
+                            alt={product.title ?? ""}
+                            className="object-cover"
+                            placeholder="empty"
         />
+        </div>
         <div className="absolute top-1 right-1">
           <AuthContextProvider>
             <FavoriteButton productId={product?.id} />

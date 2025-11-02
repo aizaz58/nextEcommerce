@@ -30,8 +30,8 @@ export default function OrdersChart({ items }) {
         label: "Orders",
         data: items?.map((item) => item?.data?.totalOrders),
         backgroundColor: "#879fff20",
-        borderColor: "#879fff80",
-        borderWidth: 0.5,
+        borderColor: "text-foreground",
+        borderWidth: 1,
         barThickness: 30,
       },
     ],
@@ -62,8 +62,10 @@ export default function OrdersChart({ items }) {
   };
 
   return (
-    <section className="bg-white p-5 rounded-xl shadow w-full h-[430px]">
-      <Bar data={data} options={options} />
+    <section className="bg-card p-5 rounded-xl shadow w-full h-[430px] min-w-0">
+      <div className="w-full h-full min-w-0">
+        <Bar data={data} options={options} />
+      </div>
     </section>
   );
 }

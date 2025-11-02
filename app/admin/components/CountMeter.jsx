@@ -28,10 +28,10 @@ export default function CountMeter() {
 
 function Card({ title, value, imgURL }) {
   return (
-    <div className="flex gap-2 px-4 py-2 bg-white shadow rounded-xl w-full justify-between items-center">
+    <div className="flex gap-2 px-4 py-2 bg-card shadow rounded-xl w-full justify-between items-center">
       <div className="flex flex-col">
         <h1 className="font-semibold text-xl">{value}</h1>
-        <h1 className="text-sm text-gray-700">{title}</h1>
+        <h1 className="text-sm ">{title}</h1>
       </div>
       <img className="h-10" src={imgURL} alt={title} />
     </div>
