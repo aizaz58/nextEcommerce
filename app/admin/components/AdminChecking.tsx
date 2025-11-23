@@ -1,20 +1,12 @@
 "use client"
 
-import AuthContextProvider, { useAuth } from "@/contexts/AuthContext"
+import { useAuth } from "@/contexts/AuthContext"
 import { CircularProgress } from "@nextui-org/react"
 import { useRouter } from "next/navigation"
 import { Suspense, useEffect } from "react"
-import AdminLayout from "./components/AdminLayout"
+import {AdminLayout} from "./AdminLayout"
 
-export default function Layout({ children }) {
-  return (
-    <AuthContextProvider>
-      <AdminChecking>{children}</AdminChecking>
-    </AuthContextProvider>
-  );
-}
-
-function AdminChecking({ children }) {
+export  function AdminChecking({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth()
   const router = useRouter()
 
@@ -22,7 +14,7 @@ function AdminChecking({ children }) {
     if (!user && !isLoading) {
       router.push("/login")
     }
-  }, [user, isLoading]);
+  }, [user, isLoading, router]);
 
   if (!user && !isLoading) {
     return (
@@ -44,3 +36,7 @@ function AdminChecking({ children }) {
     </Suspense>
   )
 }
+
+
+
+

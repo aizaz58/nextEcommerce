@@ -9,7 +9,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { AppSidebar } from "@/components/app-sidebar";
 
-export default function AdminLayout({ children }) {
+export  function AdminLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const sidebarRef = useRef(null);

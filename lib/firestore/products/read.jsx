@@ -9,6 +9,7 @@ import {
   query,
   startAfter,
   where,
+  orderBy,
 } from "firebase/firestore";
 import useSWRSubscription from "swr/subscription";
 
@@ -17,7 +18,13 @@ export function useProducts({ pageLimit, lastSnapDoc }) {
     ["products", pageLimit, lastSnapDoc],
     ([path, pageLimit, lastSnapDoc], { next }) => {
       const ref = collection(db, path);
-      let q = query(ref, limit(pageLimit ?? 10));
+      let q = query(ref, orderBy("timestampCreate", "desc"));
+
+      // Only apply limit if pageLimit is provided and is a number
+      // If pageLimit is undefined, null, or 0, fetch all products
+      if (pageLimit && typeof pageLimit === 'number' && pageLimit > 0) {
+        q = query(q, limit(pageLimit));
+      }
 
       if (lastSnapDoc) {
         q = query(q, startAfter(lastSnapDoc));

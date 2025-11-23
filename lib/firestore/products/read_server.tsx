@@ -7,6 +7,8 @@ import {
   orderBy,
   query,
   where,
+  startAfter,
+  limit,
 } from "firebase/firestore";
 import { Product } from "@/lib/types/types";
 
@@ -27,10 +29,18 @@ export const getFeaturedProducts = async () => {
 };
 
 export const getProducts = async () => {
-  const list = await getDocs(
-    query(collection(db, "products"), orderBy("timestampCreate", "desc"))
-  );
-  return list.docs.map((snap) => snap.data())  as Product[];
+  const productsRef = collection(db, "products");
+  const q = query(productsRef, orderBy("timestampCreate", "desc"));
+  const list = await getDocs(q);
+  
+  // getDocs fetches all documents (up to Firestore's limit per query)
+  // If you have more than ~1MB of data, you may need pagination
+  // For most use cases, this will fetch all products
+  const allProducts = list.docs.map((snap) => snap.data()) as Product[];
+  
+  // If there are more documents, getDocs will fetch them automatically
+  // But if you have a very large dataset, you might need to implement pagination
+  return allProducts;
 };
 
 export const getProductsByCategory = async ({ categoryId, excludeId }:{categoryId:string, excludeId:string}) => {

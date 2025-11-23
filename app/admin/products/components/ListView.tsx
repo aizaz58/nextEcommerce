@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useProducts } from "@/lib/firestore/products/read";
 import { deleteProduct } from "@/lib/firestore/products/write";
 import { Button, CircularProgress } from "@nextui-org/react";
@@ -10,7 +11,7 @@ import toast from "react-hot-toast";
 
 export default function ListView() {
   const [pageLimit, setPageLimit] = useState(10);
-  const [lastSnapDocList, setLastSnapDocList] = useState([]);
+  const [lastSnapDocList, setLastSnapDocList] = useState<any[]>([]);
 
   useEffect(() => {
     setLastSnapDocList([]);
@@ -44,7 +45,7 @@ export default function ListView() {
   if (isLoading) {
     return (
       <div>
-        <CircularProgress />
+        <Skeleton className="w-full h-6"/>
       </div>
     );
   }
@@ -56,32 +57,32 @@ export default function ListView() {
       <table className="border-separate border-spacing-y-3">
         <thead>
           <tr>
-            <th className="font-semibold border-y bg-white px-3 py-2 border-l rounded-l-lg">
+            <th className="font-semibold border-y bg-background px-3 py-2 border-l rounded-l-lg">
               SN
             </th>
-            <th className="font-semibold border-y bg-white px-3 py-2">Image</th>
-            <th className="font-semibold border-y bg-white px-3 py-2 text-left">
+            <th className="font-semibold border-y bg-background px-3 py-2">Image</th>
+            <th className="font-semibold border-y bg-background px-3 py-2 text-left">
               Title
             </th>
-            <th className="font-semibold border-y bg-white px-3 py-2 text-left">
+            <th className="font-semibold border-y bg-background px-3 py-2 text-left">
               Price
             </th>
-            <th className="font-semibold border-y bg-white px-3 py-2 text-left">
+            <th className="font-semibold border-y bg-background px-3 py-2 text-left">
               Stock
             </th>
-            <th className="font-semibold border-y bg-white px-3 py-2 text-left">
+            <th className="font-semibold border-y bg-background px-3 py-2 text-left">
               Orders
             </th>
-            <th className="font-semibold border-y bg-white px-3 py-2 text-left">
+            <th className="font-semibold border-y bg-background px-3 py-2 text-left">
               Status
             </th>
-            <th className="font-semibold border-y bg-white px-3 py-2 border-r rounded-r-lg text-center">
+            <th className="font-semibold border-y bg-background px-3 py-2 border-r rounded-r-lg text-center">
               Actions
             </th>
           </tr>
         </thead>
         <tbody>
-          {products?.map((item, index) => {
+          {products?.map((item: any, index: number) => {
             return (
               <Row
                 index={index + lastSnapDocList?.length * pageLimit}
@@ -103,7 +104,7 @@ export default function ListView() {
         </Button>
         <select
           value={pageLimit}
-          onChange={(e) => setPageLimit(e.target.value)}
+          onChange={(e) => setPageLimit(Number(e.target.value))}
           className="px-5 rounded-xl"
           name="perpage"
           id="perpage"
@@ -127,7 +128,7 @@ export default function ListView() {
   );
 }
 
-function Row({ item, index }) {
+function Row({ item, index }: { item: any; index: number }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
@@ -138,8 +139,8 @@ function Row({ item, index }) {
     try {
       await deleteProduct({ id: item?.id });
       toast.success("Successfully Deleted");
-    } catch (error) {
-      toast.error(error?.message);
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to delete product");
     }
     setIsDeleting(false);
   };
@@ -150,10 +151,10 @@ function Row({ item, index }) {
 
   return (
     <tr>
-      <td className="border-y bg-white px-3 py-2 border-l rounded-l-lg text-center">
+      <td className="border-y bg-background px-3 py-2 border-l rounded-l-lg text-center">
         {index + 1}
       </td>
-      <td className="border-y bg-white px-3 py-2 text-center">
+      <td className="border-y bg-background px-3 py-2 text-center">
         <div className="flex justify-center">
           <img
             className="h-10 w-10 object-cover"
@@ -162,15 +163,15 @@ function Row({ item, index }) {
           />
         </div>
       </td>
-      <td className="border-y bg-white px-3 py-2 whitespace-nowrap">
+      <td className="border-y bg-background px-3 py-2 whitespace-nowrap">
         {item?.title}{" "}
         {item?.isFeatured === true && (
-          <span className="ml-2 bg-gradient-to-tr from-blue-500 to-indigo-400 text-white text-[10px] rounded-full px-3 py-1">
+          <span className="ml-2 bg-linear-to-tr from-blue-500 to-indigo-400 text-white text-[10px] rounded-full px-3 py-1">
             Featured
           </span>
         )}
       </td>
-      <td className="border-y bg-white px-3 py-2  whitespace-nowrap">
+      <td className="border-y bg-background px-3 py-2  whitespace-nowrap">
         {item?.salePrice < item?.price && (
           <span className="text-xs text-gray-500 line-through">
             ₹ {item?.price}
@@ -178,9 +179,9 @@ function Row({ item, index }) {
         )}{" "}
         ₹ {item?.salePrice}
       </td>
-      <td className="border-y bg-white px-3 py-2">{item?.stock}</td>
-      <td className="border-y bg-white px-3 py-2">{item?.orders ?? 0}</td>
-      <td className="border-y bg-white px-3 py-2">
+      <td className="border-y bg-background px-3 py-2">{item?.stock}</td>
+      <td className="border-y bg-background px-3 py-2">{item?.orders ?? 0}</td>
+      <td className="border-y bg-background px-3 py-2">
         <div className="flex">
           {item?.stock - (item?.orders ?? 0) > 0 && (
             <div className="px-2 py-1 text-xs text-green-500 bg-green-100 font-bold rounded-md">
@@ -194,7 +195,7 @@ function Row({ item, index }) {
           )}
         </div>
       </td>
-      <td className="border-y bg-white px-3 py-2 border-r rounded-r-lg">
+      <td className="border-y bg-background px-3 py-2 border-r rounded-r-lg">
         <div className="flex gap-2 items-center">
           <Button
             onClick={handleUpdate}
