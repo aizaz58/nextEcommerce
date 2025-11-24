@@ -284,7 +284,7 @@ export function DataTable<TData>({
 
   const tableContent = (
     <div className="overflow-x-auto">
-      <Table className="border">
+      <Table className="border border-black dark:border-border">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -415,7 +415,7 @@ export function DataTable<TData>({
                 .map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className="border"
+                    className="border border-black dark:border-border"
                     style={{
                       width:
                         cell.column.id === "title"
@@ -439,7 +439,7 @@ export function DataTable<TData>({
 
   return (
     <div
-      className={`mt-6 rounded-lg overflow-hidden border border-border ${className}`}
+      className={`mt-6 rounded-lg overflow-hidden border border-black dark:border-border ${className}`}
     >
       {enableColumnDnd ? (
         <DndContext
@@ -454,7 +454,7 @@ export function DataTable<TData>({
       )}
 
       {enablePagination && (
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-2 md:px-4 py-3 border-t">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-2 md:px-4 py-3 border-t border-black dark:border-border">
           {/* Page info - hidden on mobile, shown on tablet+ */}
           <div className="flex items-center gap-2 order-3 md:order-1">
             <p className="text-xs md:text-sm text-muted-foreground ">
