@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { Timestamp } from "firebase/firestore";
 import {
     ColumnDef,
@@ -342,11 +342,10 @@ export default function ProductsTable({data, isLoading = false}:Props) {
     [router]
   )
 
-  if (isLoading) {
-    return <TableSkeleton />;
-  }
-
+ 
   return (
+    <Suspense fallback={<TableSkeleton/>}>
+
     <DataTable
       data={data}
       columns={columns}
@@ -358,6 +357,7 @@ export default function ProductsTable({data, isLoading = false}:Props) {
       enableSorting={true}
       enablePagination={true}
       loadingComponent={<TableSkeleton />}
-    />
+      />
+      </Suspense>
   )
 }

@@ -1,18 +1,21 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DropdownMenu,
+import {
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuTrigger,} from "@/components/ui/dropdown-menu";
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@/lib/firestore/user/read";
 import { Badge } from "@nextui-org/react";
-import { Heart, ShoppingCart, UserCircle2 } from "lucide-react";
+import { Heart, UserCircle2 } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import { useAdmin } from "@/lib/firestore/admins/read";
+import CartSidebar from "./CartSidebar";
 
 export default function HeaderClientButtons() {
   const { user } = useAuth();
@@ -59,35 +62,7 @@ export default function HeaderClientButtons() {
           </Button>
         )}
       </Link>
-      <Link href={`/cart`}>
-        {(data?.carts?.length ?? 0) != 0 && (
-          <Badge
-            variant="solid"
-            size="sm"
-            className="text-primary-foreground bg-primary flex items-center justify-center font-semibold text-[10px]"
-            content={data?.carts?.length ?? 0}
-          >
-            <Button
-              title="My Cart"
-              size={"icon"}
-              variant={"ghost"}
-              className="h-8 w-8 flex justify-center items-center rounded-full "
-            >
-              <ShoppingCart size={14} />
-            </Button>
-          </Badge>
-        )}
-        {(data?.carts?.length ?? 0) === 0 && (
-          <Button
-            title="My Cart"
-            size={"icon"}
-            variant={"ghost"}
-            className="h-8 w-8 flex justify-center items-center rounded-full "
-          >
-            <ShoppingCart size={14} />
-          </Button>
-        )}
-      </Link>
+      <CartSidebar />
      {user ?
       <DropdownMenu>
       <DropdownMenuTrigger asChild>

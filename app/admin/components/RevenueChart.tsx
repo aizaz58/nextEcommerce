@@ -1,36 +1,42 @@
 "use client";
 
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
   PointElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
+import { OrderCountItem } from "@/lib/types/types";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
   PointElement,
   Title,
   Tooltip,
   Legend
 );
 
-export default function OrdersChart({ items }) {
+interface RevenueChartProps {
+  items?: OrderCountItem[];
+}
+
+export default function RevenueChart({ items }: RevenueChartProps) {
+  const safeItems = Array.isArray(items) ? items : [];
   const data = {
-    labels: items?.map((item) => item?.date),
+    labels: safeItems.map((item) => item?.date),
     datasets: [
       {
-        label: "Orders",
-        data: items?.map((item) => item?.data?.totalOrders),
+        label: "Revenue",
+        data: safeItems.map((item) => (item?.data?.totalRevenue ?? 0) / 100),
         backgroundColor: "#879fff20",
-        borderColor: "text-foreground",
+        borderColor: "#111827",
         borderWidth: 1,
         barThickness: 30,
       },
@@ -42,11 +48,11 @@ export default function OrdersChart({ items }) {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "top",
+        position: "top" as const,
       },
       title: {
         display: true,
-        text: "Total Order Bar Chart",
+        text: "Revenue Line Chart",
       },
     },
     scales: {
@@ -62,9 +68,9 @@ export default function OrdersChart({ items }) {
   };
 
   return (
-    <section className="bg-card p-5 rounded-xl shadow w-full h-[430px] min-w-0">
+    <section className="bg-card text-foreground p-5 rounded-xl shadow w-full h-[430px] min-w-0">
       <div className="w-full h-full min-w-0">
-        <Bar data={data} options={options} />
+        <Line data={data} options={options} />
       </div>
     </section>
   );

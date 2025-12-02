@@ -61,7 +61,7 @@ export default function FeaturedProductSlider({ featuredProducts }:{featuredProd
                     <Image
                     height={368}
                     width={368}
-                      className="h-[14rem] md:h-[23rem]"
+                      className="h-56 md:h-92"
                       src={product?.featureImageURL}
                       alt=""
                     />

@@ -15,3 +15,11 @@ export interface Product {
   categoryId: string;
   orders?:number
 }
+
+export interface OrderCountItem {
+  date: string;
+  data: {
+    totalRevenue?: number;
+    totalOrders?: number;
+  };
+}

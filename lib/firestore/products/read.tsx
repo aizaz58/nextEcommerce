@@ -10,10 +10,16 @@ import {
   startAfter,
   where,
   orderBy,
+  DocumentSnapshot,
 } from "firebase/firestore";
 import useSWRSubscription from "swr/subscription";
 
-export function useProducts({ pageLimit, lastSnapDoc }) {
+interface UseProductsParams {
+  pageLimit?: number;
+  lastSnapDoc?: DocumentSnapshot | null;
+}
+
+export function useProducts({ pageLimit, lastSnapDoc }: UseProductsParams) {
   const { data, error } = useSWRSubscription(
     ["products", pageLimit, lastSnapDoc],
     ([path, pageLimit, lastSnapDoc], { next }) => {
@@ -57,7 +63,11 @@ export function useProducts({ pageLimit, lastSnapDoc }) {
   };
 }
 
-export function useProduct({ productId }) {
+interface UseProductParams {
+  productId: string;
+}
+
+export function useProduct({ productId }: UseProductParams) {
   const { data, error } = useSWRSubscription(
     ["products", productId],
     ([path, productId], { next }) => {
@@ -79,10 +89,18 @@ export function useProduct({ productId }) {
   };
 }
 
-export function useProductsByIds({ idsList }) {
+interface UseProductsByIdsParams {
+  idsList?: string[];
+}
+
+export function useProductsByIds({ idsList }: UseProductsByIdsParams) {
   const { data, error } = useSWRSubscription(
     ["products", idsList],
     ([path, idsList], { next }) => {
+      if (!Array.isArray(idsList) || idsList.length === 0) {
+        next(null, []);
+        return () => {};
+      }
       const ref = collection(db, path);
 
       let q = query(ref, where("id", "in", idsList));

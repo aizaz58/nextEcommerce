@@ -21,9 +21,9 @@ export default function Products() {
 
   return (
     <>
-      <Suspense fallback={<div><Skeleton className="w-full h-6"/></div>}>
+     
         <ProductsTable data={products || []} isLoading={isLoading}/>
-      </Suspense>
+    
     </>
   )
 }
