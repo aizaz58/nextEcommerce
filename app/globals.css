@@ -148,11 +148,35 @@ html.dark .upload-field .text-white {
   overflow-x: hidden;
 }
 
+/* Sheet (Cart Sidebar) animations - custom for Tailwind v4 */
+[data-slot="sheet-content"][data-state="open"] {
+  animation: sheet-slide-in-right 0.35s ease-out;
+}
 
+[data-slot="sheet-content"][data-state="closed"] {
+  animation: sheet-slide-out-right 0.25s ease-in;
+}
 
+@keyframes sheet-slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
-
-
-
+@keyframes sheet-slide-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
 
 
