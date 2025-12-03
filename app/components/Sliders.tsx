@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
 import Link from "next/link";
 import Slider from "react-slick";
 import FavoriteButton from "./FavoriteButton";
@@ -12,7 +11,9 @@ import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
-export default function FeaturedProductSlider({ featuredProducts }:{featuredProducts:Product[]}) {
+import { use } from "react";
+export default function FeaturedProductSlider({ featuredProducts }:{featuredProducts:Promise<Product[]>}) {
+  const products=use(featuredProducts)
   const settings = {
     dots: true,
     infinite: true,
@@ -26,7 +27,7 @@ export default function FeaturedProductSlider({ featuredProducts }:{featuredProd
   return (
     <div  className="slider-container flex flex-col  gap-8 justify-center overflow-hidden md:p-10 p-5">
       <Slider {...settings}>
-        {featuredProducts?.map((product,i) => {
+        {products?.map((product,i) => {
           return (
             <div key={i}>
               <div className="flex flex-col-reverse md:flex-row drop-shadow-2xl  gap-4 bg-primary-foreground p-5 md:px-24 md:py-20 w-full">

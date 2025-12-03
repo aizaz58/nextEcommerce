@@ -4,15 +4,17 @@ import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
 import AuthContextProvider from "@/contexts/AuthContext";
 import AddToCartButton from "./AddToCartButton";
-import { Suspense } from "react";
+import { Suspense, use } from "react";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/types/types";
 import Image from "next/image";
 import RatingReview from "./RatingReview";
 
-export default function ProductsGridView({ products }: { products: Product[] }) {
+export default function ProductsGridView({ products }: { products: Promise<Product[]>  }) {
 
-  if (!products || products === undefined) {
+  const productsData =  use(products) 
+
+  if (!productsData || productsData === undefined) {
     return <h4>No products</h4>
   }
   return (
@@ -20,8 +22,8 @@ export default function ProductsGridView({ products }: { products: Product[] }) 
       <div className="flex flex-col gap-5 max-w-[900px] p-5">
         <h1 className="text-center font-semibold text-lg">Products</h1>
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
-          {!products && <h4>No products found.</h4>}
-          {products?.map((item: Product) => {
+          {!productsData && <h4>No products found.</h4>}
+          {productsData?.map((item: Product) => {
             return <ProductCard product={item} key={item?.id} />;
           })}
         </div>
@@ -36,7 +38,7 @@ export function ProductCard({ product }: { product: Product }) {
     <div className="flex  flex-col shadow-xl  border border-muted-foreground/30 dark:border-muted-foreground/50 rounded-lg">
       {/* Wrap only the image inside the Link */}
       <Link href={`/products/${product?.id}`} className="relative w-full block">
-      <div className=" w-full  object-top aspect-[130/207]">
+      <div className=" w-full  object-top aspect-130/207">
         <Image
       
           src={product?.featureImageURL}

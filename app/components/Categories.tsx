@@ -4,12 +4,27 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "react-slick";
+import { use } from "react";
+import { DocumentData } from "firebase/firestore";
 
-export default function Categories({ categories }) {
+export interface Category {
+  id: string;
+  name: string;
+  imageURL: string;
+  // Allow extra fields without breaking typing
+  [key: string]: unknown;
+}
+
+interface CategoriesProps {
+  categories: Promise<DocumentData[]>;
+}
+
+export default function Categories({ categories }: CategoriesProps) {
+  // React experimental `use()` to unwrap the promise from the server component
+  const categoriesData = use(categories) as Category[];
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
     autoplay: true,
@@ -45,7 +60,7 @@ export default function Categories({ categories }) {
     ],
   };
 
-  if (categories.length === 0) {
+  if (!categoriesData || categoriesData.length === 0) {
     return <></>;
   }
 
@@ -57,9 +72,9 @@ export default function Categories({ categories }) {
       <div className="category-slider">
 
       <Slider className="" {...settings}>
-        {(categories?.length <= 2
-          ? [...categories, ...categories, ...categories]
-          : categories
+        {(categoriesData?.length <= 2
+          ? [...categoriesData, ...categoriesData, ...categoriesData]
+          : categoriesData
         )?.map((category,i) => {
           return (
             <Link key={i} href={`/categories/${category?.id}`}>
