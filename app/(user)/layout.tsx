@@ -7,7 +7,7 @@ import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main>
       <Header />
@@ -21,7 +21,7 @@ export default function Layout({ children }) {
   );
 }
 
-function UserChecking({ children }) {
+function UserChecking({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
   if (isLoading) {
     return (
