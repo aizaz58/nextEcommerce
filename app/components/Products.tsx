@@ -35,17 +35,16 @@ export default function ProductsGridView({ products }: { products: Promise<Produ
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="flex  flex-col shadow-xl  border border-muted-foreground/30 dark:border-muted-foreground/50 rounded-lg">
+     <div className="group flex flex-col shadow-xl border border-muted-foreground/30 dark:border-muted-foreground/50 rounded-lg transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.01] hover:shadow-2xl">
       {/* Wrap only the image inside the Link */}
       <Link href={`/products/${product?.id}`} className="relative w-full block">
-      <div className=" w-full  object-top aspect-130/207">
+       <div className="relative w-full object-top aspect-130/207 overflow-hidden rounded-t-lg">
         <Image
-      
           src={product?.featureImageURL}
           fill
-                            alt={product.title ?? ""}
-                            className="object-cover"
-                            placeholder="empty"
+          alt={product.title ?? ""}
+          className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
+          placeholder="empty"
         />
         </div>
         <div className="absolute top-1 right-1">

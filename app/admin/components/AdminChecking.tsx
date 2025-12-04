@@ -2,19 +2,23 @@
 
 import { useAuth } from "@/contexts/AuthContext"
 import { CircularProgress } from "@nextui-org/react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Suspense, useEffect } from "react"
 import {AdminLayout} from "./AdminLayout"
 
 export  function AdminChecking({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth()
   const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     if (!user && !isLoading) {
-      router.push("/login")
+      const search = searchParams.toString()
+      const currentPath = `${pathname}${search ? `?${search}` : ""}`
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`)
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading, router, pathname, searchParams]);
 
   if (!user && !isLoading) {
     return (

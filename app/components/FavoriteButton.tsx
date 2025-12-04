@@ -8,19 +8,23 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function FavoriteButton({ productId }:{productId:string}) {
   const { user } = useAuth();
   const { data } = useUser({ uid: user?.uid });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handlClick = async () => {
     setIsLoading(true);
     try {
       if (!user?.uid) {
-        router.push("/login");
+        const search = searchParams.toString();
+        const currentPath = `${pathname}${search ? `?${search}` : ""}`;
+        router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
         throw new Error("Please Log In First!");
       }
     

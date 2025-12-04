@@ -9,7 +9,26 @@ import { getProductReviewCounts } from "@/lib/firestore/products/count/read";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export default function Details({ product }) {
+export type ProductDetails = {
+  id: string;
+  title?: string;
+  shortDescription?: string;
+  salePrice?: number;
+  price?: number;
+  stock?: number;
+  orders?: number;
+  description?: string;
+  categoryId?: string;
+  brandId?: string;
+  featureImageURL?: string;
+  imageList?: string[];
+};
+
+type DetailsProps = {
+  product: ProductDetails;
+};
+
+export default function Details({ product }: DetailsProps) {
   return (
     <div className="w-full flex flex-col gap-3">
      
@@ -21,9 +40,11 @@ export default function Details({ product }) {
         {product?.shortDescription}
       </h2>
       <h3 className="text-green-500 font-bold text-lg">
-       $ {product?.salePrice}{" "}
+        ${" "}
+        {product?.salePrice}
         <span className="line-through text-muted-foreground text-sm">
-         $ {product?.price}
+          ${" "}
+          {product?.price}
         </span>
       </h3>
       <div className="flex flex-wrap items-center gap-4">
@@ -39,7 +60,7 @@ export default function Details({ product }) {
           <FavoriteButton productId={product?.id} />
         </AuthContextProvider>
       </div>
-      {product?.stock <= (product?.orders ?? 0) && (
+      {(product?.stock ?? 0) <= (product?.orders ?? 0) && (
         <div className="flex">
           <h3 className="text-red-500 py-1 rounded-lg text-sm font-semibold">
             Out Of Stock
@@ -56,7 +77,7 @@ export default function Details({ product }) {
   );
 }
 
-export async function Category({ categoryId }) {
+export async function Category({ categoryId }: { categoryId: string }) {
   const category = await getCategory({ id: categoryId });
   return (
     <Link href={`/categories/${categoryId}`}>
@@ -68,7 +89,7 @@ export async function Category({ categoryId }) {
   );
 }
 
-export async function Brand({ brandId }) {
+export async function Brand({ brandId }: { brandId: string }) {
   const brand = await getBrand({ id: brandId });
   return (
     <div className="flex items-center gap-1 border border-primary px-3 py-1 rounded-full">
@@ -78,7 +99,11 @@ export async function Brand({ brandId }) {
   );
 }
 
-async function RatingReview({ product }) {
+type RatingReviewProps = {
+  product: Pick<ProductDetails, "id">;
+};
+
+async function RatingReview({ product }: RatingReviewProps) {
   const counts = await getProductReviewCounts({ productId: product?.id });
   return (
     <div className="flex gap-3 items-center">

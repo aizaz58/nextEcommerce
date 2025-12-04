@@ -20,6 +20,7 @@ import { useCallback, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import type { Product } from "@/lib/types/types";
 import Image from "next/image";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type CartUserItem = {
   id: string;
@@ -37,6 +38,8 @@ export default function CartSidebar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const { data, isLoading } = useUser({ uid: user?.uid });
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const cartItems = (data?.carts ?? []) as CartUserItem[];
   const cartIds = useMemo(() => cartItems.map((item) => item?.id), [cartItems]);
@@ -110,6 +113,10 @@ export default function CartSidebar() {
     maximumFractionDigits: 0,
   });
 
+  const search = searchParams.toString();
+  const currentPath = `${pathname}${search ? `?${search}` : ""}`;
+  const loginHref = `/login?redirect=${encodeURIComponent(currentPath)}`;
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -153,7 +160,7 @@ export default function CartSidebar() {
               Please log in to view your cart.
             </p>
             <Button asChild className="w-full">
-              <Link href="/login" onClick={() => setOpen(false)}>
+              <Link href={loginHref} onClick={() => setOpen(false)}>
                 Login
               </Link>
             </Button>

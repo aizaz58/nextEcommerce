@@ -8,7 +8,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface CartItem {
   id: string;
@@ -19,13 +19,17 @@ export default function AddToCartButton({ productId, type }: { productId: string
   const { data } = useUser({ uid: user?.uid });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isAdded = data?.carts?.find((item:CartItem) => item?.id === productId);
 
   const handlClick = async () => {
     setIsLoading(true);
     try {
       if (!user?.uid) {
-        router.push("/login");
+        const search = searchParams.toString();
+        const currentPath = `${pathname}${search ? `?${search}` : ""}`;
+        router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
         throw new Error("Please Logged In First!");
       }
       if (isAdded) {

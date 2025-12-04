@@ -16,21 +16,38 @@ import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import { useAdmin } from "@/lib/firestore/admins/read";
 import CartSidebar from "./CartSidebar";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function HeaderClientButtons() {
   const { user } = useAuth();
   const { data } = useUser({ uid: user?.uid });
-  const { data:isAdmin } = useAdmin({ email: user?.email });
+  const { data: isAdmin } = useAdmin({ email: user?.email });
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  if(!user){
-    <Button asChild>
-    <Link href='/login'>
-    <UserCircle2 size={14} />
-    </Link>
-  </Button>
-  
+  const search = searchParams.toString();
+  const currentPath = `${pathname}${search ? `?${search}` : ""}`;
+  const loginHref = `/login?redirect=${encodeURIComponent(currentPath)}`;
+
+  if (!user) {
+    return (
+      <div className="flex items-center gap-1">
+        <CartSidebar />
+        <Button
+          asChild
+          variant="ghost"
+          className="focus-visible:ring-0 rounded-full focus-visible:ring-offset-0"
+          size={"icon"}
+        >
+          <Link href={loginHref}>
+            <UserCircle2 size={14} />
+          </Link>
+        </Button>
+      </div>
+    );
   }
-  const firstInitial = user?.displayName?.charAt(0).toUpperCase() ?? 'U';
+
+  const firstInitial = user?.displayName?.charAt(0).toUpperCase() ?? "U";
   return (
     <div className="flex items-center gap-1">
        <Link href={`/favorites`}>
