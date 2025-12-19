@@ -107,7 +107,7 @@ export default async function Page({ searchParams }) {
 
   return (
     <main>
-      <Header />
+    
       <SuccessMessage />
       <section className="min-h-screen flex flex-col gap-3 justify-center items-center">
         <div className="flex justify-center w-full">
@@ -125,7 +125,7 @@ export default async function Page({ searchParams }) {
           </Link>
         </div>
       </section>
-      <Footer />
+    
     </main>
   );
 }
